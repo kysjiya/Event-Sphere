@@ -14,50 +14,8 @@ export default function Login() {
 
 
   const handleSubmit = async (e) => {
-<<<<<<< Updated upstream
     e.preventDefault();
   
-=======
-    e.preventDefault()
-
-    const res = await api.post('/auth/login', {
-      email: email, password: password
-    });
-
-    console.log(res)
-
-    if (res) {
-      alert('Login Successfull')
-
-      const { user } = res.data;
-      Login(user)
-      console.log(user.role)
-
-      switch (user.role) {
-        case "admin":
-          navigate('/admin-dashboard')
-          return;
-        case "organizer":
-          navigate('/dashboard')
-          return;
-        case "exhibitor":
-          navigate('/exhibitor-dashboard')
-          return;
-        case "attendee":
-          navigate('/')
-          return;
-
-        default:
-          navigate('/')
-          return;
-      }
-      
-
-
-      navigate('/')
-    }
-
->>>>>>> Stashed changes
     try {
       const res = await api.post('/auth/login', {
         email,
