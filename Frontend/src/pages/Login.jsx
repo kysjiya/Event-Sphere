@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { toast } from 'react-toastify';
 import Input from '../components/Input'
 import Button from '../components/Button'
 import api from '../api/axios';
@@ -13,50 +14,42 @@ export default function Login() {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    const res = await api.post('/auth/login', {
-      email: email, password: password
-    });
-
-    console.log(res)
-
-    if (res) {
-      alert('Login Successfull')
-
-      const { user } = res.data;
-      console.log(user.role)
-
-      switch (user.role) {
-        case "admin":
-          navigate('/admin-dashboard')
-          return;
-        case "organizer":
-          navigate('/dashboard')
-          return;
-        case "exhibitor":
-          navigate('/exhibitor-dashboard')
-          return;
-        case "attendee":
-          navigate('/')
-          return;
-
-        default:
-          navigate('/')
-          return;
-      }
-
-
-
-      navigate('/')
-    }
-
+    e.preventDefault();
+  
     try {
-
+      const res = await api.post('/auth/login', {
+        email,
+        password,
+      });
+  
+      if (res && res.data?.user) {
+        const { user } = res.data;
+  
+        toast.success('Login Successful');
+  
+        switch (user.role) {
+          case "admin":
+            navigate('/admin-dashboard');
+            break;
+          case "organizer":
+            navigate('/dashboard');
+            break;
+          case "exhibitor":
+            navigate('/exhibitor-dashboard');
+            break;
+          case "attendee":
+            navigate('/');
+            break;
+          default:
+            navigate('/');
+        }
+      } else {
+        toast.error('Unexpected response from server');
+      }
     } catch (err) {
-      setError(err.message || 'Failed to login')
+      toast.error(err?.response?.data?.message || 'Failed to login');
     }
-  }
+  };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
