@@ -9,7 +9,6 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('')
   const dropdownRef = useRef(null)
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -22,7 +21,6 @@ export default function Navbar() {
 
   const handleSearch = (e) => {
     e.preventDefault()
-    // Implement search functionality here
     console.log('Searching for:', searchQuery)
   }
 
@@ -36,16 +34,12 @@ export default function Navbar() {
               <span>EventSphere</span>
             </Link>
             <div className="hidden md:flex items-center space-x-4">
-              {/* Common links for all users */}
-              <Link to="/events" className="text-gray-S600 hover:text-primary-600">Browse Events</Link>
+              <Link to="/events" className="text-gray-600 hover:text-primary-600">Browse Events</Link>
               <Link to="/categories" className="text-gray-600 hover:text-primary-600">Categories</Link>
-              
-              {/* Admin-only links */}
+
               {user?.role === 'admin' && (
                 <Link to="/admin-dashboard" className="text-gray-600 hover:text-primary-600">Admin Panel</Link>
               )}
-              
-              {/* Exhibitor-only links */}
               {user?.role === 'exhibitor' && (
                 <>
                   <Link to="/create" className="text-gray-600 hover:text-primary-600">Create Event</Link>
@@ -53,7 +47,7 @@ export default function Navbar() {
                 </>
               )}
             </div>
-            {/* Search Bar */}
+
             <form onSubmit={handleSearch} className="hidden lg:flex items-center relative">
               <input
                 type="text"
@@ -72,25 +66,27 @@ export default function Navbar() {
               </button>
             </form>
           </div>
+
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                {user.role === attendee && (
+                {user.role === 'attendee' && (
                   <Link to="/dashboard" className="text-gray-700 hover:text-primary-600">
                     My Events
                   </Link>
                 )}
-                {user.role === exhibitor && (
+                {user.role === 'exhibitor' && (
                   <Link to="/exhibitor-dashboard" className="text-gray-700 hover:text-primary-600">
                     Exhibitor Dashboard
                   </Link>
                 )}
-                {user.role === admin && (
+                {user.role === 'admin' && (
                   <Link to="/admin-dashboard" className="text-gray-700 hover:text-primary-600">
                     Admin Panel
                   </Link>
                 )}
-                {/* Profile Circle with Dropdown */}
+                 console.log('Navbar user:', user)
+
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -100,16 +96,38 @@ export default function Navbar() {
                       {user.email ? user.email[0].toUpperCase() : user.name?.[0]?.toUpperCase() || 'U'}
                     </div>
                   </button>
-                  
+
                   {isProfileOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border border-gray-100 animate-fadeIn">
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                        onClick={() => setIsProfileOpen(false)}
-                      >
-                        Profile
-                      </Link>
+                      {/* Role-specific profile links */}
+                      {user.role === 'admin' && (
+                        <Link
+                          to="/admin-profile"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          Admin Profile
+                        </Link>
+                      )}
+                      {user.role === 'exhibitor' && (
+                        <Link
+                          to="/exhibitor-profile"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          Exhibitor Profile
+                        </Link>
+                      )}
+                      {user.role === 'attendee' && (
+                        <Link
+                          to="/attendee-profile"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          My Profile
+                        </Link>
+                      )}
+
                       <button
                         onClick={() => {
                           logout()

@@ -17,6 +17,8 @@ import productRoutes from './routes/productRoutes.mjs';
 import staffRoutes from './routes/staffRoutes.mjs';
 import feedbackRoutes from './routes/feedbackRoutes.mjs';
 import notificationRoutes from './routes/notificationRoutes.mjs';
+// In your main server file
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const app = express();
@@ -33,6 +35,7 @@ app.use(cors({
   credentials: true,               // 👈 Allow credentials (cookies, auth headers)
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Socket.IO logic
 io.on('connection', (socket) => {
