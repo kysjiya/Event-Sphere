@@ -85,7 +85,7 @@ export default function Navbar() {
                     Admin Panel
                   </Link>
                 )}
-                 console.log('Navbar user:', user)
+                
 
                 <div className="relative" ref={dropdownRef}>
                   <button

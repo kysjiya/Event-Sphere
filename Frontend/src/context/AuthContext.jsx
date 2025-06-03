@@ -1,113 +1,58 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react';
+import api from '../api/axios';
+import { toast } from 'react-toastify';
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
-export function useAuth() {
-  return useContext(AuthContext)
-}
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
+  // Fetch user on initial load if token exists in cookies
   useEffect(() => {
-    const user = localStorage.getItem('user')
-    if (user) {
-      setUser(JSON.parse(user))
-    }
-    setLoading(false)
-  }, [])
+    const fetchUser = async () => {
+      try {
+        const res = await api.get('/auth/me'); // Backend should return user info if cookie is valid
+        setUser(res.data.user);
+      } catch (err) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const login = async (email, password) => {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-    const user = storedUsers.find(u => u.email === email)
-    
-    if (!user) {
-      throw new Error('User not found')
-    }
+    try {
+      const res = await api.post('/auth/login', { email, password });
 
-    localStorage.setItem('user', JSON.stringify(user))
-    setUser(user)
-    return user
-  }
-
-  const register = async (userData) => {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-    
-    // Check if email already exists
-    if (storedUsers.some(user => user.email === userData.email)) {
-      throw new Error('Email already exists')
-    }
-
-    const newUser = {
-      ...userData,
-      id: Date.now(),
-      role: userData.role || 'attendee',
-      createdAt: new Date().toISOString()
-    }
-
-    // Initialize role-specific data
-    if (newUser.role === 'exhibitor') {
-      newUser.events = []
-      newUser.analytics = {
-        totalEvents: 0,
-        totalAttendees: 0
+      if (res.data?.user) {
+        setUser(res.data.user);
+        toast.success("Login successful");
+        return res.data.user;
       }
-    } else if (newUser.role === 'attendee') {
-      newUser.enrolledEvents = []
-    } else if (newUser.role === 'admin') {
-      // Verify admin registration code (in a real app, this would be more secure)
-      if (userData.adminCode !== 'ADMIN123') { // You should change this to a secure method
-        throw new Error('Invalid admin registration code')
-      }
-      newUser.analytics = {
-        totalUsers: storedUsers.length,
-        totalEvents: 0
-      }
+    } catch (err) {
+      toast.error(err?.response?.data?.msg || "Login failed");
+      throw err;
     }
+  };
 
-    // Save user data
-    const updatedUsers = [...storedUsers, newUser]
-    localStorage.setItem('users', JSON.stringify(updatedUsers))
-    
-    // Save profile data
-    localStorage.setItem(`user_profile_${newUser.id}`, JSON.stringify(userData))
-    
-    // Set current user
-    localStorage.setItem('user', JSON.stringify(newUser))
-    setUser(newUser)
-    
-    return newUser
-  }
-
-  const logout = () => {
-    localStorage.removeItem('user')
-    setUser(null)
-  }
-
-  const getProfile = (userId) => {
-    const data = localStorage.getItem(`user_profile_${userId}`)
-    return data ? JSON.parse(data) : null
-  }
-
-  const isAdmin = () => user?.role === 'admin'
-  const isExhibitor = () => user?.role === 'exhibitor'
-  const isAttendee = () => user?.role === 'attendee'
-
-  const value = {
-    user,
-    login,
-    register,
-    logout,
-    getProfile,
-    isAdmin,
-    isExhibitor,
-    isAttendee
-  }
+  const logout = async () => {
+    try {
+      await api.post('/auth/logout'); // This route clears the cookie
+      setUser(null);
+      toast.success("Logged out successfully");
+    } catch (err) {
+      toast.error("Logout failed");
+    }
+  };
 
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
+      {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);

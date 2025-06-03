@@ -1,31 +1,28 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
 import { toast } from 'react-toastify';
 import Input from '../components/Input'
 import Button from '../components/Button'
 import api from '../api/axios';
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const { login } = useAuth()
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     try {
-      const res = await api.post('/auth/login', {
-        email,
-        password,
-      });
+      const user = await login(email, password);
   
-      if (res && res.data?.user) {
-        const { user } = res.data;
+    
   
-        toast.success('Login Successful');
+      
   
         switch (user.role) {
           case "admin":
@@ -42,10 +39,8 @@ export default function Login() {
             break;
           default:
             navigate('/');
-        }
-      } else {
-        toast.error('Unexpected response from server');
-      }
+        
+      } 
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Failed to login');
     }
