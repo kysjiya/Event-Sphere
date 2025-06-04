@@ -2,12 +2,27 @@ import Expo from '../models/Expo.mjs';
 
 export const createExpo = async (req, res) => {
   try {
-    const expo = await Expo.create({ ...req.body, createdBy: req.user.id });
+    const { title, date, location, description, theme } = req.body;
+    const floorPlan = req.file?.buffer?.toString('base64') || null; // or store path if using disk
+
+    const expo = await Expo.create({
+      title,
+      date,
+      location,
+      description,
+      theme,
+      floorPlan,
+      createdBy: req.user.id
+    });
+
     res.status(201).json(expo);
   } catch (err) {
+    console.error("Expo creation failed:", err);
     res.status(500).json({ msg: 'Error creating expo', error: err.message });
   }
+  
 };
+
 
 export const getAllExpos = async (req, res) => {
   try {

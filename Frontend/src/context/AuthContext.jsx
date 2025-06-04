@@ -47,12 +47,16 @@ export const AuthProvider = ({ children }) => {
       toast.error("Logout failed");
     }
   };
+  const isAdmin = () => user?.role === 'admin'; // Add this line
+  const isExhibitor = () => user?.role === 'exhibitor';
+  const isAttendee = () => user?.role === 'attendee';
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, isAdmin, isExhibitor, isAttendee }}>
       {children}
     </AuthContext.Provider>
   );
+  
 };
 
 export const useAuth = () => useContext(AuthContext);

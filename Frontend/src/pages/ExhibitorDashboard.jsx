@@ -1,103 +1,145 @@
+
+
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import EventCard from '../components/EventCard'
-import Button from '../components/Button'
+import { Navigate } from 'react-router-dom'
 
 export default function ExhibitorDashboard() {
-  const { user, isExhibitor } = useAuth()
-  const navigate = useNavigate()
-  const [events, setEvents] = useState([])
+  
   const [stats, setStats] = useState({
+    totalUsers: 0,
     totalEvents: 0,
-    totalAttendees: 0,
-    upcomingEvents: 0
+    usersByRole: {
+      admin: 0,
+      exhibitor: 0,
+      attendee: 0
+    }
   })
+  const [upcomingEvents, setUpcomingEvents] = useState([])
 
   useEffect(() => {
-    // if (!user || !isExhibitor()) {
-    //   navigate('/')
-    //   return
-    // }
-
-    // Load exhibitor's events
-    const allEvents = JSON.parse(localStorage.getItem('events') || '[]')
-    const exhibitorEvents = allEvents.filter(event => event.exhibitorId === user.id)
-    setEvents(exhibitorEvents)
-
+    // In a real app, this would be an API call
+    const users = JSON.parse(localStorage.getItem('users') || '[]')
+    const events = JSON.parse(localStorage.getItem('events') || '[]')
+    
     // Calculate stats
-    const now = new Date()
     setStats({
-      totalEvents: exhibitorEvents.length,
-      totalAttendees: exhibitorEvents.reduce((acc, event) => acc + (event.attendees?.length || 0), 0),
-      upcomingEvents: exhibitorEvents.filter(event => new Date(event.datetime) > now).length
+      totalUsers: users.length,
+      totalEvents: events.length,
+      usersByRole: {
+        admin: users.filter(u => u.role === 'admin').length,
+        exhibitor: users.filter(u => u.role === 'exhibitor').length,
+        attendee: users.filter(u => u.role === 'attendee').length
+      }
     })
-  }, [user, isExhibitor, navigate])
 
-  const handleEdit = (eventId) => {
-    navigate(`/edit-event/${eventId}`)
-  }
+    // Get upcoming events
+    const now = new Date()
+    const upcoming = events
+      .filter(event => new Date(event.datetime) > now)
+      .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
+    setUpcomingEvents(upcoming)
+  }, [])
 
-  const handleDelete = (eventId) => {
-    if (window.confirm('Are you sure you want to delete this event?')) {
-      // Delete event
-      const allEvents = JSON.parse(localStorage.getItem('events') || '[]')
-      const updatedEvents = allEvents.filter(event => event.id !== eventId)
-      localStorage.setItem('events', JSON.stringify(updatedEvents))
 
-      // Update state
-      setEvents(prev => prev.filter(event => event.id !== eventId))
-    }
-  }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold mb-2">My Events</h1>
-          <p className="text-gray-600">Manage your events and track attendance</p>
-        </div>
-        <Button onClick={() => navigate('/create')} className="px-4 py-2">
-          Create New Event
-        </Button>
-      </div>
-
+      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-gray-500 text-sm font-medium">Total Users</h3>
+          <p className="text-3xl font-bold text-gray-900">{stats.totalUsers}</p>
+        </div>
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-gray-500 text-sm font-medium">Total Events</h3>
           <p className="text-3xl font-bold text-gray-900">{stats.totalEvents}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-gray-500 text-sm font-medium">Total Attendees</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.totalAttendees}</p>
+          <h3 className="text-gray-500 text-sm font-medium">Total Exhibitors</h3>
+          <p className="text-3xl font-bold text-gray-900">{stats.usersByRole.exhibitor}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-gray-500 text-sm font-medium">Upcoming Events</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.upcomingEvents}</p>
+          <h3 className="text-gray-500 text-sm font-medium">Total Attendees</h3>
+          <p className="text-3xl font-bold text-gray-900">{stats.usersByRole.attendee}</p>
         </div>
       </div>
 
-      {events.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-600 mb-4">You haven't created any events yet.</p>
-          <Button onClick={() => navigate('/create')} className="px-6 py-2">
-            Create Your First Event
-          </Button>
+      {/* Analytics Section */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h2 className="text-xl font-semibold mb-4">User Distribution</h2>
+        <div className="flex items-center space-x-4">
+          <div className="flex-1">
+            <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary-600" 
+                style={{ 
+                  width: `${(stats.usersByRole.attendee / stats.totalUsers) * 100}%` 
+                }}
+              />
+            </div>
+            <p className="text-sm mt-2">Attendees: {stats.usersByRole.attendee}</p>
+          </div>
+          <div className="flex-1">
+            <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-secondary-600" 
+                style={{ 
+                  width: `${(stats.usersByRole.exhibitor / stats.totalUsers) * 100}%` 
+                }}
+              />
+            </div>
+            <p className="text-sm mt-2">Exhibitors: {stats.usersByRole.exhibitor}</p>
+          </div>
+          <div className="flex-1">
+            <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-tertiary-600" 
+                style={{ 
+                  width: `${(stats.usersByRole.admin / stats.totalUsers) * 100}%` 
+                }}
+              />
+            </div>
+            <p className="text-sm mt-2">Admins: {stats.usersByRole.admin}</p>
+          </div>
         </div>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map(event => (
-            <EventCard
-              key={event.id}
-              event={event}
-              showActions={true}
-              onEdit={() => handleEdit(event.id)}
-              onDelete={() => handleDelete(event.id)}
-            />
-          ))}
+      </div>
+
+      {/* Upcoming Events Section */}
+      <div className="bg-white rounded-lg shadow p-6 mt-8">
+        <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
+        <div className="divide-y">
+          {upcomingEvents.length === 0 ? (
+            <p className="text-gray-500 py-4">No upcoming events</p>
+          ) : (
+            upcomingEvents.map(event => (
+              <div key={event.id} className="py-4">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">{event.title}</h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {new Date(event.datetime).toLocaleDateString()} at {new Date(event.datetime).toLocaleTimeString()}
+                    </p>
+                    {event.location && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        📍 {event.location}
+                      </p>
+                    )}
+                    <p className="text-sm text-gray-600 mt-1">
+                      By {event.companyName} • {event.attendees?.length || 0} attendees
+                    </p>
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Created {new Date(event.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }
