@@ -43,6 +43,7 @@ export default function CreateEvent() {
       const res = await api.post('/expos', formData2, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`, // Add this line
         },
       });
   
