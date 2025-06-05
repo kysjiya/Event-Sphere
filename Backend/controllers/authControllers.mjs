@@ -35,13 +35,13 @@ export const login = async (req, res) => {
             { expiresIn: '7d' }
           );
       
-          // ✅ Set token in HTTP-only cookie
           res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Set true in production
+            secure: false, // ✅ Make sure this is false during local dev
             sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            maxAge: 7 * 24 * 60 * 60 * 1000,
           });
+          
       
         res.status(200).json({token, user});
     }

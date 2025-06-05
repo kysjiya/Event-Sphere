@@ -33,14 +33,22 @@ export const getAllExpos = async (req, res) => {
   }
 };
 
+
 // Update expo
 export const updateExpo = async (req, res) => {
   try {
-    const expo = await Expo.findById(req.params.id);
-    if (!expo) return res.status(404).json({ msg: 'Expo not found' });
-
+   // Example Express route to get expo by ID
+  app.get('/api/expos/:id', authenticateUser, async (req, res) => {
+  try {
+    const expo = await Expo.findById(req.params.id)
+    if (!expo) return res.status(404).json({ msg: 'Expo not found' })
+    res.json(expo)
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error' })
+  }
+})
     // Optional: check if the logged-in user is the creator
-    if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
+    if (Expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ msg: 'Not authorized to update this expo' });
     }
 

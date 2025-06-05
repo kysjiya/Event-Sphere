@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import axios from 'axios'
 import Input from '../components/Input'
 import Button from '../components/Button'
 
@@ -20,6 +21,7 @@ export default function EditEvent() {
     image: null
   })
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!user || !isExhibitor()) {
@@ -27,31 +29,46 @@ export default function EditEvent() {
       return
     }
 
-    // Load event data
-    const events = JSON.parse(localStorage.getItem('events') || '[]')
-    const event = events.find(e => e.id === parseInt(id))
-    
-    if (!event || event.exhibitorId !== user.id) {
-      navigate('/exhibitor-dashboard')
-      return
+    // Fetch event data from backend
+    const fetchEvent = async () => {
+      try {
+        const res = await axios.get(`/api/expos/${id}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}` // adjust if your auth is different
+          }
+        })
+        const event = res.data
+
+        // Check ownership
+        if (event.createdBy !== user.id) {
+          navigate('/exhibitor-dashboard')
+          return
+        }
+
+        // Convert datetime to date & time fields
+        const datetime = new Date(event.datetime)
+        const date = datetime.toISOString().split('T')[0]
+        const time = datetime.toTimeString().split(' ')[0].substring(0, 5)
+
+        setFormData({
+          title: event.title,
+          description: event.description,
+          date,
+          time,
+          location: event.location,
+          category: event.category,
+          capacity: event.capacity,
+          price: event.price,
+          image: event.image || null
+        })
+        setLoading(false)
+      } catch (err) {
+        setError('Failed to load event')
+        setLoading(false)
+      }
     }
 
-    // Convert ISO datetime to date and time
-    const datetime = new Date(event.datetime)
-    const date = datetime.toISOString().split('T')[0]
-    const time = datetime.toTimeString().split(' ')[0].substring(0, 5)
-
-    setFormData({
-      title: event.title,
-      description: event.description,
-      date,
-      time,
-      location: event.location,
-      category: event.category,
-      capacity: event.capacity,
-      price: event.price,
-      image: event.image
-    })
+    fetchEvent()
   }, [id, user, navigate, isExhibitor])
 
   const handleImageChange = (e) => {
@@ -69,33 +86,31 @@ export default function EditEvent() {
     e.preventDefault()
     setError('')
 
+    if (!formData.title || !formData.description || !formData.date || !formData.time) {
+      setError('Please fill in all required fields')
+      return
+    }
+
     try {
-      // Validation
-      if (!formData.title || !formData.description || !formData.date || !formData.time) {
-        setError('Please fill in all required fields')
-        return
+      // Prepare data for backend
+      const updatedData = {
+        ...formData,
+        datetime: new Date(formData.date + 'T' + formData.time).toISOString()
       }
 
-      // Update event
-      const events = JSON.parse(localStorage.getItem('events') || '[]')
-      const updatedEvents = events.map(event => {
-        if (event.id === parseInt(id)) {
-          return {
-            ...event,
-            ...formData,
-            datetime: new Date(formData.date + 'T' + formData.time).toISOString(),
-            updatedAt: new Date().toISOString()
-          }
+      await axios.put(`/api/expos/${id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${user.token}` // ensure auth token sent
         }
-        return event
       })
 
-      localStorage.setItem('events', JSON.stringify(updatedEvents))
       navigate('/exhibitor-dashboard')
     } catch (err) {
       setError('Failed to update event')
     }
   }
+
+  if (loading) return <div>Loading event...</div>
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -103,9 +118,7 @@ export default function EditEvent() {
         <h1 className="text-3xl font-bold mb-8">Edit Event</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-lg rounded-lg p-6">
-          {error && (
-            <div className="bg-red-100 text-red-600 p-3 rounded">{error}</div>
-          )}
+          {error && <div className="bg-red-100 text-red-600 p-3 rounded">{error}</div>}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input

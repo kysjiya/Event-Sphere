@@ -30,10 +30,11 @@ const io = new Server(server, {
     }
   });
 
-app.use(cors({
-  origin: 'http://localhost:5173', // 👈 Exact frontend origin
-  credentials: true,               // 👈 Allow credentials (cookies, auth headers)
-}));
+  app.use(cors({
+    origin: 'http://localhost:5173',  // ✅ Must match your frontend origin
+    credentials: true                 // ✅ Must be true for cookies
+  }));
+  
 app.use(express.json());
 app.use(cookieParser());
 

@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import api from '../api/axios'
+import axios from 'axios';
+import { toast } from 'react-toastify'
+
 
 export default function CreateEvent() {
   const { user } = useAuth()
@@ -30,22 +32,29 @@ export default function CreateEvent() {
   
     try {
       const formData2 = new FormData(); // ✅ declared first
-  
+
+
       formData2.append('title', formData.title);
       formData2.append('description', formData.description);
       formData2.append('date', formData.date);
       formData2.append('location', formData.location);
-      formData2.append('theme', formData.category); // or other field
+      formData2.append('theme', formData.theme); // or other field
       if (formData.image) {
         formData2.append('floorPlan', formData.image); // this must match backend field
       }
   
-      const res = await api.post('/expos', formData2, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`, // Add this line
-        },
-      });
+      console.log(formData);
+
+      const res = await axios.post('http://localhost:5000/api/expos', formData2, {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+
+  },
+  withCredentials: true, // ✅ Very important!
+});
+
+// console.log('Cookies:', req.cookies);
+
   
       toast.success("Expo created successfully");
       navigate('/admin-dashboard');
