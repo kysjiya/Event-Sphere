@@ -45,29 +45,29 @@ export default function ExhibitorDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-8">Exhibitor Dashboard</h1>
       
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow p-6">
+        {/* <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-gray-500 text-sm font-medium">Total Users</h3>
           <p className="text-3xl font-bold text-gray-900">{stats.totalUsers}</p>
-        </div>
+        </div> */}
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-gray-500 text-sm font-medium">Total Events</h3>
           <p className="text-3xl font-bold text-gray-900">{stats.totalEvents}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-6">
+        {/* <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-gray-500 text-sm font-medium">Total Exhibitors</h3>
           <p className="text-3xl font-bold text-gray-900">{stats.usersByRole.exhibitor}</p>
-        </div>
+        </div> */}
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-gray-500 text-sm font-medium">Total Attendees</h3>
           <p className="text-3xl font-bold text-gray-900">{stats.usersByRole.attendee}</p>
         </div>
       </div>
 
-      {/* Analytics Section */}
+      {/* Analytics Section
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-xl font-semibold mb-4">User Distribution</h2>
         <div className="flex items-center space-x-4">
@@ -105,7 +105,7 @@ export default function ExhibitorDashboard() {
             <p className="text-sm mt-2">Admins: {stats.usersByRole.admin}</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Upcoming Events Section */}
       <div className="bg-white rounded-lg shadow p-6 mt-8">

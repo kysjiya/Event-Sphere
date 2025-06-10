@@ -110,7 +110,6 @@ export default function Register() {
               <option value="">Select Role</option>
               <option value="attendee">Attendee</option>
               <option value="exhibitor">Exhibitor</option>
-              <option value="admin">Admin</option>
             </select>
           </div>
 

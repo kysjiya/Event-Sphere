@@ -23,7 +23,6 @@ export const createExpo = async (req, res) => {
   
 };
 
-
 export const getAllExpos = async (req, res) => {
   try {
     const expos = await Expo.find();
@@ -32,7 +31,6 @@ export const getAllExpos = async (req, res) => {
     res.status(500).json({ msg: 'Error fetching expos', error: err.message });
   }
 };
-
 
 // Update expo
 export const updateExpo = async (req, res) => {
@@ -47,6 +45,7 @@ export const updateExpo = async (req, res) => {
     res.status(500).json({ msg: 'Server error' })
   }
 })
+
     // Optional: check if the logged-in user is the creator
     if (Expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ msg: 'Not authorized to update this expo' });
