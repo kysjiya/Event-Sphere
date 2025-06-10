@@ -83,6 +83,10 @@ export default function AdminDashboard() {
           <p className="text-3xl font-bold text-gray-900">{stats.totalAttendees}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-gray-500 text-sm font-medium">Total Exhibitors</h3>
+          <p className="text-3xl font-bold text-gray-900">{stats.totalAttendees}</p>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-gray-500 text-sm font-medium">Upcoming Exhibitions</h3>
           <p className="text-3xl font-bold text-gray-900">{stats.upcomingEvents}</p>
         </div>

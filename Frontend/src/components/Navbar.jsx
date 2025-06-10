@@ -35,9 +35,10 @@ export default function Navbar() {
             </Link>
             <div className="hidden md:flex items-center space-x-4">
               <Link to="/events" className="text-gray-600 hover:text-primary-600">Browse Events</Link>
-              <Link to="/categories" className="text-gray-600 hover:text-primary-600">Categories</Link>
+              <Link to="/categories" className="text-gray-600 hover:text-primary-600">Contact Us</Link>
+              <Link to="/categories" className="text-gray-600 hover:text-primary-600">About Us</Link>
 
-              {user?.role === 'admin' && (
+              {/* {user?.role === 'admin' && (
                 <Link to="/admin-dashboard" className="text-gray-600 hover:text-primary-600">Admin Panel</Link>
               )}
               {user?.role === 'exhibitor' && (
@@ -45,10 +46,10 @@ export default function Navbar() {
                   <Link to="/create" className="text-gray-600 hover:text-primary-600">Create Event</Link>
                   <Link to="/exhibitor-dashboard" className="text-gray-600 hover:text-primary-600">Exhibitor Dashboard</Link>
                 </>
-              )}
+              )} */}
             </div>
 
-            <form onSubmit={handleSearch} className="hidden lg:flex items-center relative">
+            {/* <form onSubmit={handleSearch} className="hidden lg:flex items-center relative">
               <input
                 type="text"
                 placeholder="Search events..."
@@ -64,27 +65,27 @@ export default function Navbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </button>
-            </form>
+            </form> */}
           </div>
 
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                {user.role === 'attendee' && (
+                {/* {user.role === 'attendee' && (
                   <Link to="/dashboard" className="text-gray-700 hover:text-primary-600">
                     My Events
                   </Link>
                 )}
                 {user.role === 'exhibitor' && (
                   <Link to="/exhibitor-dashboard" className="text-gray-700 hover:text-primary-600">
-                    Exhibitor Dashboard
+                    Dashboard
                   </Link>
                 )}
                 {user.role === 'admin' && (
                   <Link to="/admin-dashboard" className="text-gray-700 hover:text-primary-600">
-                    Admin Panel
+                    Dashboard
                   </Link>
-                )}
+                )} */}
                 
 
                 <div className="relative" ref={dropdownRef}>
@@ -102,20 +103,20 @@ export default function Navbar() {
                       {/* Role-specific profile links */}
                       {user.role === 'admin' && (
                         <Link
-                          to="/admin-profile"
+                          to="/admin-dashboard"
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                           onClick={() => setIsProfileOpen(false)}
                         >
-                          Admin Profile
+                          Dashboard
                         </Link>
                       )}
                       {user.role === 'exhibitor' && (
                         <Link
-                          to="/exhibitor-profile"
+                          to="/exhibitor-dashboard"
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                           onClick={() => setIsProfileOpen(false)}
                         >
-                          Exhibitor Profile
+                          Dashboard
                         </Link>
                       )}
                       {user.role === 'attendee' && (
@@ -124,7 +125,7 @@ export default function Navbar() {
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                           onClick={() => setIsProfileOpen(false)}
                         >
-                          My Profile
+                          Profile
                         </Link>
                       )}
 

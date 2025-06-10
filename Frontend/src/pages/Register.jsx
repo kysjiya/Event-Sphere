@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import api from '../api/axios';
+import { toast } from 'react-toastify';
 
 export default function Register() {
   const [name, setName] = useState('')

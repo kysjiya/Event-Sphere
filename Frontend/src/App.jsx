@@ -116,6 +116,14 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/sidebar"
+            element={
+              <PrivateRoute>
+                <sidebar />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </AuthProvider>
