@@ -11,11 +11,6 @@ export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('')
-  const [companyName, setCompanyName] = useState('')
-  const [productsServices, setProductsServices] = useState('')
-  const [logoFile, setLogoFile] = useState(null)
-  const [contactInfo, setContactInfo] = useState('')
-  const [adminCode, setAdminCode] = useState('')
   const [error, setError] = useState('')
 
   const navigate = useNavigate()
@@ -74,6 +69,7 @@ export default function Register() {
           const res = await api.post('/auth/register', userData);
           // setUser(res.data.user);
           // setToken(res.data.token); // store in state only
+          toast.success('Account created successfully!');
           navigate("/login")
         } catch (err) {
           throw new Error(err.response?.data?.msg || 'Registration failed');
