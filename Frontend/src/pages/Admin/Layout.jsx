@@ -11,22 +11,21 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/profile';
-import ManageExpos from './pages/Admin/Show-events';
 import AdminDashboard from './pages/Admin/AdminDashboard';
-import ExhibitorDashboard from './pages/Exhibitor/ExhibitorDashboard';
+import ManageExpos from '../Admin/Show-events';
 import CreateEvent from './pages/Admin/CreateEvent';
 import EditEvent from './pages/Admin/EditEvent';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
+function Layout() {
   return (
     <AuthProvider>
       <ToastContainer />
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <Routes>
-          {/* Public Routes */}
+          Public Routes
           <Route
             path="/login"
             element={
@@ -53,14 +52,14 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="/admin-dashboard"
             element={
@@ -78,14 +77,6 @@ function App() {
             }
           />
           <Route
-            path="/exhibitor-dashboard"
-            element={
-              <PrivateRoute>
-                <ExhibitorDashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
             path="/create"
             element={
               <PrivateRoute>
@@ -94,7 +85,7 @@ function App() {
             }
           />
           <Route
-            path="/edit-event/:id"
+            path="/edit-event"
             element={
               <PrivateRoute>
                 <EditEvent />
@@ -117,7 +108,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/categories"
             element={
               <PrivateRoute>
@@ -132,11 +123,11 @@ function App() {
                 <sidebar />
               </PrivateRoute>
             }
-          />
+          /> */}
         </Routes>
       </div>
     </AuthProvider>
   );
 }
 
-export default App;
+export default Layout;

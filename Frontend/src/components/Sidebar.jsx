@@ -1,106 +1,127 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
-  const [isManageOpen, setIsManageOpen] = useState(true);
+  const [isExhibitionsOpen, setIsExhibitionsOpen] = useState(false);
+  const [isUsersOpen, setIsUsersOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isBookingsOpen, setIsBookingsOpen] = useState(false);
 
   return (
     <aside className="w-64 h-screen bg-gray-100 p-4 overflow-y-auto flex flex-col">
-      {/* Header */}
-      {/* <div className="mb-8">
+      <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-800">EventSphere</h2>
-      </div> */}
+      </div>
 
-      Navigation
       <nav className="flex-1">
-        {/* <SidebarList heading="General" items={["Inbox", "Favourite", "Sent", "Draft", "Archive", "Trash"]} />
-        <SidebarList heading="Settings" items={["Profile", "Settings"]} /> */}
-
-        {/* Dropdown Section */}
+        {/* Exhibitions */}
         <div className="mb-6">
           <button
-            onClick={() => setIsManageOpen(!isManageOpen)}
+            onClick={() => setIsExhibitionsOpen(!isExhibitionsOpen)}
             className="w-full text-left text-xs font-semibold uppercase text-gray-500 mb-2 focus:outline-none"
           >
             Exhibitions
           </button>
-          {isManageOpen && (
+          {isExhibitionsOpen && (
             <ul className="space-y-1 ml-2">
-              {["Create Exhibition", "Manage Exhibition"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/create"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Create Exhibition
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Show-events"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Manage Exhibition
+                </Link>
+              </li>
             </ul>
           )}
         </div>
+
+        {/* Users */}
         <div className="mb-6">
           <button
-            onClick={() => setIsManageOpen(!isManageOpen)}
+            onClick={() => setIsUsersOpen(!isUsersOpen)}
             className="w-full text-left text-xs font-semibold uppercase text-gray-500 mb-2 focus:outline-none"
           >
             Users
           </button>
-          {isManageOpen && (
+          {isUsersOpen && (
             <ul className="space-y-1 ml-2">
-              {["All Users", "Exhibitors Info"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/all-users"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  All Users
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/exhibitors-info"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Exhibitors Info
+                </Link>
+              </li>
             </ul>
           )}
         </div>
+
+        {/* Manage Profile */}
         <div className="mb-6">
           <button
-            onClick={() => setIsManageOpen(!isManageOpen)}
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="w-full text-left text-xs font-semibold uppercase text-gray-500 mb-2 focus:outline-none"
           >
             Manage Profile
           </button>
-          {isManageOpen && (
+          {isProfileOpen && (
             <ul className="space-y-1 ml-2">
-              {["Edit Profile", "Add Admin"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/edit-profile"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Edit Profile
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/add-admin"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Add Admin
+                </Link>
+              </li>
             </ul>
           )}
         </div>
+
+        {/* Bookings */}
         <div className="mb-6">
           <button
-            onClick={() => setIsManageOpen(!isManageOpen)}
+            onClick={() => setIsBookingsOpen(!isBookingsOpen)}
             className="w-full text-left text-xs font-semibold uppercase text-gray-500 mb-2 focus:outline-none"
           >
             Bookings
           </button>
-          {isManageOpen && (
+          {isBookingsOpen && (
             <ul className="space-y-1 ml-2">
-              {["Manage"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/manage-bookings"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Manage
+                </Link>
+              </li>
             </ul>
           )}
         </div>
@@ -108,23 +129,5 @@ const SideBar = () => {
     </aside>
   );
 };
-
-const SidebarList = ({ heading, items }) => (
-  <div className="mb-6">
-    <h3 className="text-xs font-semibold uppercase text-gray-500 mb-2">{heading}</h3>
-    <ul className="space-y-1">
-      {items.map((item) => (
-        <li key={item}>
-          <a
-            href="#"
-            className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
-          >
-            {item}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
 
 export default SideBar;

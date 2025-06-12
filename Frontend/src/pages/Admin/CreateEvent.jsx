@@ -1,9 +1,9 @@
 // Modified CreateEvent component to send data to your backend API
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import Input from '../components/Input'
-import Button from '../components/Button'
+import { useAuth } from '../../context/AuthContext'
+import Input from '../../components/Input'
+import Button from '../../components/Button'
 import axios from 'axios';
 import { toast } from 'react-toastify'
 

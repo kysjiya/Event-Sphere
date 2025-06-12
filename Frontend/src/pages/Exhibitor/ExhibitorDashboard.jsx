@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import Sidebar from '../components/Sidebar'
-import { useAuth } from '../context/AuthContext'
+import Sidebar from '../../components/Sidebar'
+import { useAuth } from '../../context/AuthContext'
 import { Navigate } from 'react-router-dom'
 
 export default function ExhibitorDashboard() {
@@ -33,8 +33,7 @@ export default function ExhibitorDashboard() {
   }, [])
 
   return (
-    <div className="flex">
-      <Sidebar />
+    
 
       <main className="flex-1 bg-gray-50 min-h-screen p-8">
         <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
@@ -118,6 +117,5 @@ export default function ExhibitorDashboard() {
           </div>
         </div>
       </main>
-    </div>
   )
 }

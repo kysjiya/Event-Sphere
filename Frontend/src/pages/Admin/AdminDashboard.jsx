@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import EventCard from '../components/EventCard'
-import Button from '../components/Button'
-import api from '../api/axios'
+import { useAuth } from '../../context/AuthContext'
+import EventCard from '../../components/EventCard'
+import Button from '../../components/Button'
+import api from '../../api/axios'
 import { toast } from 'react-toastify'
+import Sidebar from '../../components/Sidebar'
+
 
 export default function AdminDashboard() {
   const { user, isAdmin } = useAuth()
@@ -61,6 +63,8 @@ export default function AdminDashboard() {
   }
 
   return (
+    <div className="flex">
+      <Sidebar />
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -113,5 +117,7 @@ export default function AdminDashboard() {
         </div>
       )}
     </div>
+    </div>
+
   )
 }
