@@ -66,9 +66,10 @@ export default function EditEvent() {
       formData2.append('location', formData.location)
       formData2.append('theme', formData.theme)
 
-      if (formData.floorPlan) {
-        formData2.append('floorPlan', formData.floorPlan)
-      }
+     if (formData.floorPlan) {
+  formData2.append('floorPlan', formData.floorPlan);
+}
+
 
       await axios.put(`http://localhost:5000/api/expos/${id}`, formData2, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -76,7 +77,7 @@ export default function EditEvent() {
       })
 
       toast.success('Expo updated successfully')
-      navigate('/admin-dashboard')
+      navigate('/Show-events')
     } catch (err) {
       console.error(err)
       setError(err?.response?.data?.msg || 'Failed to update expo')

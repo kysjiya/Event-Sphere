@@ -34,22 +34,41 @@ export const getAllExpos = async (req, res) => {
 
 export const updateExpo = async (req, res) => {
   try {
-    const expo = await Expo.findById(req.params.id);
-    if (!expo) {
-      return res.status(404).json({ msg: 'Expo not found' });
-    }
+    console.log('REQ BODY:', req.body);
+    console.log('REQ FILE:', req.file);
+    console.log('PARAMS:', req.params);
 
-    // Check if the user is authorized
+    const expo = await Expo.findById(req.params.id);
+    if (!expo) return res.status(404).json({ msg: 'Expo not found' });
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  return res.status(400).json({ msg: 'Invalid expo ID' });
+}
+
+    // Optional: Authorization check
     if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ msg: 'Not authorized to update this expo' });
     }
 
-    const updatedExpo = await Expo.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json(updatedExpo);
+    const { title, description, date, location, theme } = req.body;
+    if (title) expo.title = title;
+    if (description) expo.description = description;
+    if (date) expo.date = date;
+    if (location) expo.location = location;
+    if (theme) expo.theme = theme;
+
+    if (req.file && req.file.buffer) {
+      expo.floorPlan = req.file.buffer.toString('base64');
+    }
+
+    await expo.save();
+
+    res.status(200).json({ msg: 'Expo updated successfully', expo });
   } catch (err) {
+    console.error('UPDATE ERROR:', err);
     res.status(500).json({ msg: 'Error updating expo', error: err.message });
   }
 };
+
 
 
 // Update expo
