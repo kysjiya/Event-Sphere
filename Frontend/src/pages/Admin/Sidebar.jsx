@@ -56,7 +56,7 @@ const SideBar = () => {
             <ul className="space-y-1 ml-2">
               <li>
                 <Link
-                  to="/all-users"
+                  to="/All-Users"
                   className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
                 >
                   All Users
@@ -64,7 +64,7 @@ const SideBar = () => {
               </li>
               <li>
                 <Link
-                  to="/exhibitors-info"
+                  to="/exhibitors-profile"
                   className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
                 >
                   Exhibitors Info

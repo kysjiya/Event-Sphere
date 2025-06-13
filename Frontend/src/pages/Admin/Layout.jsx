@@ -9,7 +9,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
+import CreateBooth from './CreateBooth';
 import Profile from './pages/profile';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import ManageExpos from '../Admin/Show-events';
@@ -52,14 +52,14 @@ function Layout() {
               </PrivateRoute>
             }
           />
-          {/* <Route
-            path="/dashboard"
+          <Route
+            path="/CreateBooth/:expoId"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <CreateBooth />
               </PrivateRoute>
             }
-          /> */}
+          />
           <Route
             path="/admin-dashboard"
             element={

@@ -12,8 +12,14 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/profile';
 import ManageExpos from './pages/Admin/Show-events';
+import ManageBooths from './pages/Admin/manage-booth';
+import AllExhibitors from './pages/Admin/exhibitors-profile';
+import AllUsersTable from './pages/Admin/All-Users';
+import CreateBooth from './pages/Admin/CreateBooth';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import ExhibitorDashboard from './pages/Exhibitor/ExhibitorDashboard';
+import ExpoRegistrationForm from './pages/Exhibitor/ExpoRegistrationForm';
+import UpcomingExpos from './pages/Exhibitor/UpcomingExpos';
 import CreateEvent from './pages/Admin/CreateEvent';
 import EditEvent from './pages/Admin/EditEvent';
 
@@ -86,6 +92,13 @@ function App() {
             }
           />
           <Route
+           path="/expo/:expoId/register" 
+           element={
+           <ExpoRegistrationForm />
+           } 
+           />
+
+          <Route
             path="/create"
             element={
               <PrivateRoute>
@@ -93,6 +106,41 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/CreateBooth/:expoId"
+            element={
+              <PrivateRoute>
+                <CreateBooth />
+              </PrivateRoute>
+            }
+          />
+          <Route
+           path="/manage-booth/:expoId" 
+           element={
+           <ManageBooths />
+           } 
+           />
+         {/* <Route 
+         path="/edit-booth/:boothId" 
+         element={
+         <EditBooth />
+         } 
+         /> */}
+         <Route 
+         path="/All-Users" 
+         element={
+         <AllUsersTable />
+         } 
+         />
+         <Route 
+         path="/exhibitors-profile" 
+         element={
+         <AllExhibitors />
+         } 
+         />
+       <Route path="/expo/:expoId/register" element={<ExpoRegistrationForm />} />
+
+
           <Route
             path="/edit-event/:id"
             element={
@@ -126,10 +174,10 @@ function App() {
             }
           />
           <Route
-            path="/sidebar"
+            path="/UpcomingExpos"
             element={
               <PrivateRoute>
-                <sidebar />
+                <UpcomingExpos />
               </PrivateRoute>
             }
           />

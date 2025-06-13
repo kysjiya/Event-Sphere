@@ -1,5 +1,35 @@
 import Booth from '../models/Booth.mjs';
 
+export const createBooths = async (req, res) => {
+  const { expoId } = req.params;
+  const { hall, row, startNumber, endNumber, price, boothSize } = req.body;
+
+  try {
+    const booths = [];
+
+    for (let i = parseInt(startNumber); i <= parseInt(endNumber); i++) {
+      const boothNumber = `${hall}-${row}-${i}`;
+      const location = `Hall ${hall} - Row ${row}, Booth ${i}`;
+
+      const booth = await Booth.create({
+        expo: expoId,
+        number: boothNumber,
+        location,
+        size: boothSize,
+        status: 'available'
+      });
+
+      booths.push(booth);
+    }
+
+    res.status(201).json({ msg: 'Booths created successfully', booths });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error', error: err.message });
+  }
+};
+
+
 // Get booths for an expo
 export const getBooths = async (req, res) => {
   const { expoId } = req.params;
@@ -59,3 +89,14 @@ export const cancelReservation = async (req, res) => {
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 };
+
+export const getBoothsByExpoId = async (req, res) => {
+  try {
+    const booths = await Booth.find({ expo: req.params.expoId });
+    res.json(booths);
+  } catch (err) {
+    console.error("Error getting booths:", err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+

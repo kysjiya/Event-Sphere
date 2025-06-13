@@ -17,6 +17,9 @@ import productRoutes from './routes/productRoutes.mjs';
 import staffRoutes from './routes/staffRoutes.mjs';
 import feedbackRoutes from './routes/feedbackRoutes.mjs';
 import notificationRoutes from './routes/notificationRoutes.mjs';
+import userRoutes from './routes/userRoutes.mjs'; // adjust path if needed
+// import exhibitorRoutes from './routes/exhibitorRoutes.js'; // or .mjs if you're using .mjs
+
 // In your main server file
 import cookieParser from 'cookie-parser';
 
@@ -65,17 +68,23 @@ app.post('/send-notification', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/expos', expoRoutes);
-app.use('/api/exhibitor', exhibitorRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/attendees', attendeeRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
-app.use('/api/exhibitor-portal', exhibitorProfileRoutes);
 app.use('/api/booths', boothRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/users', userRoutes); // <--- important!
+// Old:
+app.use('/api/exhibitor-portal', exhibitorProfileRoutes);
+
+// New:
+app.use('/api/exhibitors', exhibitorProfileRoutes); // ✅ now /all will work under /api/exhibitors
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

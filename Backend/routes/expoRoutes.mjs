@@ -1,5 +1,5 @@
 import express from 'express';
-import { createExpo, getAllExpos, updateExpo, deleteExpo, showExpo } from '../controllers/expoController.mjs';
+import { createExpo, getAllExpos, updateExpo, deleteExpo, showExpo, getExpoById } from '../controllers/expoController.mjs';
 import { protect } from '../middlewares/authMiddleware.mjs';
 import { authorizeRoles } from '../middlewares/roleMiddleware.mjs';
 import multer from 'multer';
@@ -15,5 +15,6 @@ router.get('/', getAllExpos);
 router.put('/:id', protect, authorizeRoles('admin', 'organizer'), updateExpo);
 router.delete('/:id', protect, authorizeRoles('admin', 'organizer'), deleteExpo);
 router.get('/:id', protect, authorizeRoles('admin', 'organizer'), showExpo);
+router.get("/:id", getExpoById); 
 
 export default router;

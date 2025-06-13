@@ -106,3 +106,13 @@ export const deleteExpo = async (req, res) => {
   }
 };
 
+export const getExpoById = async (req, res) => {
+  try {
+    const expo = await Expo.findById(req.params.id);
+    if (!expo) return res.status(404).json({ msg: 'Expo not found' });
+    res.json(expo);
+  } catch (err) {
+    console.error("Error getting expo:", err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};

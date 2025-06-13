@@ -10,6 +10,18 @@ export const getExhibitorProfile = async (req, res) => {
     }
 };
 
+
+export const getAllExhibitorProfiles = async (req, res) => {
+  try {
+    const profiles = await ExhibitorProfile.find().populate('user', ['name', 'email']);
+    res.json(profiles);
+  } catch (err) {
+    res.status(500).json({ msg: "Server error", error: err.message });
+  }
+};
+
+  
+
 export const createOrUpdateExhibitorProfile = async (req, res) => {
     try {
         const profileData = { ...req.body, user: req.user.id };

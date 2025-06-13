@@ -5,13 +5,17 @@ import Input from '../../components/Input'
 import Button from '../../components/Button'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
+
 
 export default function CreateBooth() {
+  
   const { user } = useAuth()
   const navigate = useNavigate()
+  const { expoId } = useParams()
 
   const [formData, setFormData] = useState({
-    expoId: '',
+    expoId: expoId || '',
     hall: '',
     row: '',
     startNumber: '',
@@ -23,21 +27,26 @@ export default function CreateBooth() {
   const [error, setError] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-
+    e.preventDefault();
+    setError('');
+  
     try {
-      const res = await axios.post('http://localhost:5000/api/booths', formData, {
+      const res = await axios.post(`http://localhost:5000/api/booths/${expoId}`, formData, {
         withCredentials: true
-      })
-
-      toast.success('Booth(s) created successfully!')
-      navigate('/admin-dashboard')
-    } catch (err) {
-      console.error(err)
-      setError(err?.response?.data?.msg || 'Failed to create booth')
+      });
+  
+      toast.success('Booth(s) created successfully!');
+      navigate('/manage-booth');
+    }  catch (err) {
+      console.error(err);
+      if (err?.response?.status === 409) {
+        setError('Booth with this number already exists for this expo.');
+      } else {
+        setError(err?.response?.data?.msg || 'Failed to create booth');
+      }
     }
-  }
+  };
+  
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -49,14 +58,7 @@ export default function CreateBooth() {
             <div className="bg-red-100 text-red-600 p-3 rounded">{error}</div>
           )}
 
-          <Input
-            label="Expo ID"
-            type="text"
-            value={formData.expoId}
-            onChange={(e) => setFormData(prev => ({ ...prev, expoId: e.target.value }))}
-            required
-          />
-
+         
           <Input
             label="Hall"
             type="text"

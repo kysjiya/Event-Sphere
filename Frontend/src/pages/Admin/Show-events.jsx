@@ -78,7 +78,8 @@ export default function ManageExpos() {
                   <Button
                     type="button"
                     className="!bg-green-500 hover:!bg-green-600"
-                    onClick={() => navigate(`/add-booth/${expo._id}`)}
+                    onClick={() => navigate(`/manage-booth/${expo._id}`)
+                  }
                   >
                     Booths
                   </Button>

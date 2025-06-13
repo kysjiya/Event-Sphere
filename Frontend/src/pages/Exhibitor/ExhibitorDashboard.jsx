@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Sidebar from '../../components/Sidebar'
+import SideBarExhibitor from '../Exhibitor/Sidebar'
 import { useAuth } from '../../context/AuthContext'
 import { Navigate } from 'react-router-dom'
 
@@ -33,14 +33,16 @@ export default function ExhibitorDashboard() {
   }, [])
 
   return (
-    
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <SideBarExhibitor />
 
-      <main className="flex-1 bg-gray-50 min-h-screen p-8">
+      {/* Main Dashboard Content */}
+      <main className="flex-1 p-8">
         <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Cards (same as before) */}
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-gray-500 text-sm font-medium">Total Users</h3>
             <p className="text-3xl font-bold text-gray-900">{stats.totalUsers}</p>
@@ -63,22 +65,30 @@ export default function ExhibitorDashboard() {
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">User Distribution</h2>
           <div className="flex items-center space-x-4">
-            {/* Progress Bars */}
             <div className="flex-1">
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-                <div className="h-full bg-primary-600" style={{ width: `${(stats.usersByRole.attendee / stats.totalUsers) * 100}%` }} />
+                <div
+                  className="h-full bg-primary-600"
+                  style={{ width: `${(stats.usersByRole.attendee / stats.totalUsers) * 100}%` }}
+                />
               </div>
               <p className="text-sm mt-2">Attendees: {stats.usersByRole.attendee}</p>
             </div>
             <div className="flex-1">
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-                <div className="h-full bg-secondary-600" style={{ width: `${(stats.usersByRole.exhibitor / stats.totalUsers) * 100}%` }} />
+                <div
+                  className="h-full bg-secondary-600"
+                  style={{ width: `${(stats.usersByRole.exhibitor / stats.totalUsers) * 100}%` }}
+                />
               </div>
               <p className="text-sm mt-2">Exhibitors: {stats.usersByRole.exhibitor}</p>
             </div>
             <div className="flex-1">
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-                <div className="h-full bg-tertiary-600" style={{ width: `${(stats.usersByRole.admin / stats.totalUsers) * 100}%` }} />
+                <div
+                  className="h-full bg-tertiary-600"
+                  style={{ width: `${(stats.usersByRole.admin / stats.totalUsers) * 100}%` }}
+                />
               </div>
               <p className="text-sm mt-2">Admins: {stats.usersByRole.admin}</p>
             </div>
@@ -98,7 +108,8 @@ export default function ExhibitorDashboard() {
                     <div>
                       <h3 className="text-lg font-medium text-gray-900">{event.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {new Date(event.datetime).toLocaleDateString()} at {new Date(event.datetime).toLocaleTimeString()}
+                        {new Date(event.datetime).toLocaleDateString()} at{' '}
+                        {new Date(event.datetime).toLocaleTimeString()}
                       </p>
                       {event.location && (
                         <p className="text-sm text-gray-500 mt-1">📍 {event.location}</p>
@@ -117,5 +128,6 @@ export default function ExhibitorDashboard() {
           </div>
         </div>
       </main>
+    </div>
   )
 }

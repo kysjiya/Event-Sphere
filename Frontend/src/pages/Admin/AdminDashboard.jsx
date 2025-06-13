@@ -5,7 +5,7 @@ import EventCard from '../../components/EventCard'
 import Button from '../../components/Button'
 import api from '../../api/axios'
 import { toast } from 'react-toastify'
-import Sidebar from '../../components/Sidebar'
+import Sidebar from './Sidebar'
 
 
 export default function AdminDashboard() {
