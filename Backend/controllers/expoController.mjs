@@ -1,9 +1,20 @@
 import Expo from '../models/Expo.mjs';
+import mongoose from 'mongoose'; // required for ObjectId validation
+import express from 'express';
+
+const app = express();
+app.use(express.json());
+
+import multer from 'multer';
+const upload = multer();
+
 
 export const createExpo = async (req, res) => {
   try {
     const { title, date, location, description, theme } = req.body;
-    const floorPlan = req.file?.buffer?.toString('base64') || null; // or store path if using disk
+
+    // Handle image file if present
+    const floorPlan = req.file?.buffer?.toString('base64') || null;
 
     const expo = await Expo.create({
       title,
@@ -12,7 +23,7 @@ export const createExpo = async (req, res) => {
       description,
       theme,
       floorPlan,
-      createdBy: req.user.id
+      createdBy: req.user.id,
     });
 
     res.status(201).json(expo);
@@ -20,7 +31,6 @@ export const createExpo = async (req, res) => {
     console.error("Expo creation failed:", err);
     res.status(500).json({ msg: 'Error creating expo', error: err.message });
   }
-  
 };
 
 export const getAllExpos = async (req, res) => {
@@ -33,41 +43,41 @@ export const getAllExpos = async (req, res) => {
 };
 
 export const updateExpo = async (req, res) => {
+  const { id } = req.params;
+  const { title, date, location, description, theme } = req.body;
+
   try {
-    console.log('REQ BODY:', req.body);
-    console.log('REQ FILE:', req.file);
-    console.log('PARAMS:', req.params);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ msg: 'Invalid expo ID' });
+    }
 
-    const expo = await Expo.findById(req.params.id);
+    const expo = await Expo.findById(id);
     if (!expo) return res.status(404).json({ msg: 'Expo not found' });
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  return res.status(400).json({ msg: 'Invalid expo ID' });
-}
 
-    // Optional: Authorization check
+    // Authorization check
     if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ msg: 'Not authorized to update this expo' });
     }
 
-    const { title, description, date, location, theme } = req.body;
+    // Update only if provided
     if (title) expo.title = title;
-    if (description) expo.description = description;
     if (date) expo.date = date;
     if (location) expo.location = location;
+    if (description) expo.description = description;
     if (theme) expo.theme = theme;
 
-    if (req.file && req.file.buffer) {
+    // Update image if provided
+    if (req.file?.buffer) {
       expo.floorPlan = req.file.buffer.toString('base64');
     }
 
     await expo.save();
-
     res.status(200).json({ msg: 'Expo updated successfully', expo });
   } catch (err) {
-    console.error('UPDATE ERROR:', err);
-    res.status(500).json({ msg: 'Error updating expo', error: err.message });
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 };
+
 
 
 
@@ -94,8 +104,7 @@ export const deleteExpo = async (req, res) => {
     if (!expo) return res.status(404).json({ msg: 'Expo not found' });
 
     // Optional: check if the logged-in user is the creator
-    if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin')
- {
+    if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ msg: 'Not authorized to delete this expo' });
     }
 

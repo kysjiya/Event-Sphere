@@ -64,6 +64,14 @@ const SideBar = () => {
               </li>
               <li>
                 <Link
+                  to="/create-user"
+                  className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
+                >
+                  Add User
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/exhibitors-profile"
                   className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium"
                 >

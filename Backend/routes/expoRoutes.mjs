@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post('/', protect, authorizeRoles('admin', 'organizer'), upload.single('floorPlan'), createExpo);
 router.get('/', getAllExpos);
-router.put('/:id', protect, authorizeRoles('admin', 'organizer'), updateExpo);
+router.put('/:id', protect, authorizeRoles('admin', 'organizer'), upload.single('floorPlan'), updateExpo);
 router.delete('/:id', protect, authorizeRoles('admin', 'organizer'), deleteExpo);
 router.get('/:id', protect, authorizeRoles('admin', 'organizer'), showExpo);
 router.get("/:id", getExpoById); 

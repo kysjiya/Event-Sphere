@@ -15,6 +15,8 @@ import ManageExpos from './pages/Admin/Show-events';
 import ManageBooths from './pages/Admin/manage-booth';
 import AllExhibitors from './pages/Admin/exhibitors-profile';
 import AllUsersTable from './pages/Admin/All-Users';
+import EditUser from './pages/Admin/EditUser';
+import AddUser from './pages/Admin/CreateUser';
 import CreateBooth from './pages/Admin/CreateBooth';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import ExhibitorDashboard from './pages/Exhibitor/ExhibitorDashboard';
@@ -132,6 +134,21 @@ function App() {
          <AllUsersTable />
          } 
          />
+
+        <Route 
+         path="/create-user" 
+         element={
+         <AddUser />
+         } 
+         />
+
+        <Route 
+         path="/edit-user/:id" 
+         element={
+         <EditUser />
+         } 
+         />
+
          <Route 
          path="/exhibitors-profile" 
          element={

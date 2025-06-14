@@ -26,43 +26,75 @@ export default function CreateEvent() {
     setFormData(prev => ({ ...prev, floorPlan: file }))
   }
 
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError('');
+  
+//     try {
+//       const formData2 = new FormData();
+
+
+//       formData2.append('title', formData.title);
+//       formData2.append('description', formData.description);
+//       formData2.append('date', formData.date);
+//       formData2.append('location', formData.location);
+//       formData2.append('theme', formData.theme);
+//       if (formData.image) {
+//         formData2.append('floorPlan', formData.image);
+//       }
+  
+//       console.log(formData);
+
+//       const res = await axios.post('http://localhost:5000/api/expos', formData2, {
+//   headers: {
+//     'Content-Type': 'multipart/form-data',
+
+//   },
+//   withCredentials: true,
+// });
+
+
+  
+//       toast.success("Expo created successfully");
+//       navigate('/Show-events');
+//     } catch (err) {
+//       console.error(err);
+//       setError(err?.response?.data?.msg || 'Failed to create expo');
+//     }
+//   };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
   
     try {
-      const formData2 = new FormData(); // ✅ declared first
-
-
+      const formData2 = new FormData();
+  
       formData2.append('title', formData.title);
       formData2.append('description', formData.description);
       formData2.append('date', formData.date);
       formData2.append('location', formData.location);
-      formData2.append('theme', formData.theme); // or other field
-      if (formData.image) {
-        formData2.append('floorPlan', formData.image); // this must match backend field
+      formData2.append('theme', formData.theme);
+      if (formData.floorPlan) {
+        formData2.append('floorPlan', formData.floorPlan);
       }
   
-      console.log(formData);
-
       const res = await axios.post('http://localhost:5000/api/expos', formData2, {
-  headers: {
-    'Content-Type': 'multipart/form-data',
-
-  },
-  withCredentials: true, // ✅ Very important!
-});
-
-// console.log('Cookies:', req.cookies);
-
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
   
       toast.success("Expo created successfully");
-      navigate('/admin-dashboard');
+      navigate('/Show-events');
     } catch (err) {
       console.error(err);
       setError(err?.response?.data?.msg || 'Failed to create expo');
     }
   };
+  
   
 
   return (
