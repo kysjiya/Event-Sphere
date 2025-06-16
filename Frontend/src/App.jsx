@@ -18,6 +18,7 @@ import AllUsersTable from './pages/Admin/All-Users';
 import EditUser from './pages/Admin/EditUser';
 import AddUser from './pages/Admin/CreateUser';
 import CreateBooth from './pages/Admin/CreateBooth';
+import EditBooth from './pages/Admin/EditBooth';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import ExhibitorDashboard from './pages/Exhibitor/ExhibitorDashboard';
 import ExpoRegistrationForm from './pages/Exhibitor/ExpoRegistrationForm';
@@ -122,12 +123,12 @@ function App() {
            <ManageBooths />
            } 
            />
-         {/* <Route 
-         path="/edit-booth/:boothId" 
+         <Route 
+         path="/EditBooth/:boothId" 
          element={
          <EditBooth />
          } 
-         /> */}
+         />
          <Route 
          path="/All-Users" 
          element={
