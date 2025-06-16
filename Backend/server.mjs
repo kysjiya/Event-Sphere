@@ -34,8 +34,8 @@ const io = new Server(server, {
   });
 
   app.use(cors({
-    origin: 'http://localhost:5173',  // ✅ Must match your frontend origin
-    credentials: true                 // ✅ Must be true for cookies
+    origin: 'http://localhost:5173',  
+    credentials: true                
   }));
   
 app.use(express.json());

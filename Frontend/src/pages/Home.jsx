@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Button from '../components/Button'
 import EventCard from '../components/EventCard'
 import Footer from '../components/Footer'
-import { useEvents } from '../hooks/useEvents'
+import { useEvents } from '../hooks/useEvents'  
 import { useAuth } from '../context/AuthContext'
 import { useState } from 'react'
 import { BiSearch, BiMapPin } from 'react-icons/bi'
@@ -14,16 +14,15 @@ export default function Home() {
   const [searchLocation, setSearchLocation] = useState('')
   
   // Get upcoming events
-  const allEvents = JSON.parse(localStorage.getItem('events') || '[]')
-  const now = new Date()
-  const upcomingEvents = allEvents
-    .filter(event => new Date(event.datetime) > now)
-    .filter(event => 
-      event.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (event.location || '').toLowerCase().includes(searchLocation.toLowerCase())
+const now = new Date();
+  const upcomingEvents = events
+    .filter(evt => new Date(evt.date) > now)
+    .filter(evt =>
+      evt.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (evt.location || '').toLowerCase().includes(searchLocation.toLowerCase())
     )
-    .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
-    .slice(0, 6)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 6);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -9,12 +9,12 @@ import {
 import { protect } from '../middlewares/authMiddleware.mjs';
 
 const router = express.Router();
-// import {  } from '../controllers/boothController.mjs';
 
+// Create booths for an expo (Admin/Organizer only)
 router.post('/:expoId', protect, createBooths);
 
 // Public: Get all booths for an expo
-router.get('/:expoId', protect, getBooths);
+router.get('/:expoId', getBooths);
 
 // Exhibitor: Reserve or update their booth
 router.put('/reserve/:boothId', protect, reserveOrUpdateBooth);
@@ -22,5 +22,7 @@ router.put('/reserve/:boothId', protect, reserveOrUpdateBooth);
 // Exhibitor: Cancel reservation
 router.delete('/cancel/:boothId', protect, cancelReservation);
 
-router.get("/:expoId", getBoothsByExpoId); 
+// Optional: Get booths by expoId (if used elsewhere)
+router.get('/by-expo/:expoId', getBoothsByExpoId);
+
 export default router;

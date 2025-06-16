@@ -14,7 +14,8 @@ router.post('/', protect, authorizeRoles('admin', 'organizer'), upload.single('f
 router.get('/', getAllExpos);
 router.put('/:id', protect, authorizeRoles('admin', 'organizer'), upload.single('floorPlan'), updateExpo);
 router.delete('/:id', protect, authorizeRoles('admin', 'organizer'), deleteExpo);
-router.get('/:id', protect, authorizeRoles('admin', 'organizer'), showExpo);
-router.get("/:id", getExpoById); 
+// router.get('/:id', protect, authorizeRoles('admin', 'organizer','exhibitor'), showExpo);
+router.get('/:id', showExpo);
+// router.get("/:id", getExpoById); 
 
 export default router;

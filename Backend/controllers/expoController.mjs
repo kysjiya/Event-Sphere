@@ -88,9 +88,9 @@ export const showExpo = async (req, res) => {
     if (!expo) return res.status(404).json({ msg: 'Expo not found' });
 
     // Optional: check if the logged-in user is the creator
-    if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
-      return res.status(403).json({ msg: 'Not authorized to update this expo' });
-    }
+    // if (expo.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
+    //   return res.status(403).json({ msg: 'Not authorized to update this expo' });
+    // }
     res.status(200).json(expo);
   } catch (err) {
     res.status(500).json({ msg: 'Error finding expo', error: err.message });
