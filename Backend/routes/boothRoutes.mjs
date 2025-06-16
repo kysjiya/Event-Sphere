@@ -4,7 +4,9 @@ import {
   getBooths,
   reserveOrUpdateBooth,
   cancelReservation,
-  getBoothsByExpoId
+  getBoothsByExpoId,
+  getBoothById,
+  updateBoothById
 } from '../controllers/boothController.mjs';
 import { protect } from '../middlewares/authMiddleware.mjs';
 
@@ -21,6 +23,9 @@ router.put('/reserve/:boothId', protect, reserveOrUpdateBooth);
 
 // Exhibitor: Cancel reservation
 router.delete('/cancel/:boothId', protect, cancelReservation);
+
+router.get('/booth/:boothId', getBoothById);
+router.put('/:boothId', updateBoothById);
 
 router.get("/:expoId", getBoothsByExpoId); 
 export default router;

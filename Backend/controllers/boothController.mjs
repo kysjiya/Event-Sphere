@@ -100,3 +100,43 @@ export const getBoothsByExpoId = async (req, res) => {
   }
 };
 
+
+export const getBoothById = async (req, res) => {
+  try {
+    const booth = await Booth.findById(req.params.boothId);
+      console.log('GET /booth/:boothId hit', req.params.boothId); // ✅ Add this
+
+    if (!booth) return res.status(404).json({ msg: 'Booth not found' });
+    res.json(booth);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error', error: err.message });
+  }
+};
+
+
+
+// PUT /api/booth/:boothId
+export const updateBoothById = async (req, res) => {
+  try {
+    const booth = await Booth.findById(req.params.boothId);
+    if (!booth) {
+      return res.status(404).json({ msg: 'Booth not found' });
+    }
+
+    const { hall, row, boothNumber, price, boothSize, status } = req.body;
+
+    if (hall) booth.hall = hall;
+    if (row) booth.row = row;
+    if (boothNumber) booth.number = boothNumber;
+    if (price) booth.price = price;
+    if (boothSize) booth.size = boothSize;
+    if (status) booth.status = status;
+
+    await booth.save();
+    res.json({ msg: 'Booth updated successfully', booth });
+  } catch (err) {
+    console.error("Error updating booth:", err);
+    res.status(500).json({ msg: 'Server error', error: err.message });
+  }
+};
+

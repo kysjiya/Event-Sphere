@@ -79,7 +79,7 @@ export default function ManageBooths() {
                   <Button
                     type="button"
                     className="!bg-blue-500 hover:!bg-blue-600"
-                    onClick={() => navigate(`/edit-booth/${booth._id}`)}
+                    onClick={() => navigate(`/EditBooth/${booth._id}`)}
                   >
                     Edit
                   </Button>
