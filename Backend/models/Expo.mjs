@@ -6,7 +6,7 @@ const ExpoSchema = new mongoose.Schema({
   location: { type: String, required: true },
   description: { type: String },
   theme: { type: String },
-  floorPlan: { type: String }, // Could be a file URL or image path
+  floorPlan: { type: String },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
