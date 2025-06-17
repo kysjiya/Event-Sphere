@@ -35,8 +35,8 @@ export default function Navbar() {
             </Link>
             <div className="hidden md:flex items-center space-x-4">
               <Link to="/events" className="text-gray-600 hover:text-primary-600">Browse Events</Link>
-              <Link to="/categories" className="text-gray-600 hover:text-primary-600">Contact Us</Link>
-              <Link to="/categories" className="text-gray-600 hover:text-primary-600">About Us</Link>
+              {/* <Link to="/categories" className="text-gray-600 hover:text-primary-600">Contact Us</Link> */}
+              {/* <Link to="/categories" className="text-gray-600 hover:text-primary-600">About Us</Link> */}
 
               {/* {user?.role === 'admin' && (
                 <Link to="/admin-dashboard" className="text-gray-600 hover:text-primary-600">Admin Panel</Link>
