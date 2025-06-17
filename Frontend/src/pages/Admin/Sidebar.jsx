@@ -83,7 +83,7 @@ const SideBar = () => {
         </div>
 
         {/* Manage Profile */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="w-full text-left text-xs font-semibold uppercase text-gray-500 mb-2 focus:outline-none"
@@ -110,7 +110,7 @@ const SideBar = () => {
               </li>
             </ul>
           )}
-        </div>
+        </div> */}
 
         {/* Bookings */}
         <div className="mb-6">

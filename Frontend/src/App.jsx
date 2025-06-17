@@ -23,6 +23,7 @@ import EditBooth from './pages/Admin/EditBooth';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import ExhibitorDashboard from './pages/Exhibitor/ExhibitorDashboard';
 import ExpoRegistrationForm from './pages/Exhibitor/ExpoRegistrationForm';
+import AllExhibitorsRequests from './pages/Admin/manage-bookings';
 import UpcomingExpos from './pages/Exhibitor/UpcomingExpos';
 import CreateEvent from './pages/Admin/CreateEvent';
 import EditEvent from './pages/Admin/EditEvent';
@@ -96,6 +97,7 @@ function App() {
             }
           />
 <Route path="/ExpoRegistrationForm/:expoId" element={<ExpoRegistrationForm />} />
+<Route path="/manage-bookings" element={<AllExhibitorsRequests />} />
 
 
           <Route
