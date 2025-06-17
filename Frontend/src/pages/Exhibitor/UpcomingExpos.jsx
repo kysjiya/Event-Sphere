@@ -71,10 +71,11 @@ navigate(`/ExpoRegistrationForm/${expoId}`);
                   <td className="py-3 px-4 border-b">
                     {expo.floorPlan ? (
                       <img
-                        src={expo.floorPlan}
-                        alt="Floor Plan"
-                        className="w-24 h-16 object-cover rounded shadow border"
-                      />
+                      src={`data:image/png;base64,${expo.floorPlan}`}
+                      alt="Floor Plan"
+                      className="w-24 h-16 object-cover rounded shadow border"
+                    />
+                    
                     ) : (
                       '—'
                     )}
