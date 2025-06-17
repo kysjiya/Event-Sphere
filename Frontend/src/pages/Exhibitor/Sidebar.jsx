@@ -32,20 +32,20 @@ const SideBarExhibitor = () => {
                   Upcoming Exhibitions
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/update-profile"
                   className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium"
                 >
                   Update Profile
                 </Link>
-              </li>
+              </li> */}
             </ul>
           )}
         </div>
 
         {/* Booth Management */}
-        <div>
+        {/* <div>
           <button
             onClick={() => setIsBoothOpen(!isBoothOpen)}
             className="w-full text-left text-xs font-semibold uppercase text-gray-500 mb-2 focus:outline-none"
@@ -53,7 +53,7 @@ const SideBarExhibitor = () => {
             Booth Management
           </button>
           {isBoothOpen && (
-            <ul className="space-y-1 ml-2">
+            <ul className="space-y-1 ml-2"> */}
               {/* <li>
                 <Link
                   to="/view-floorplan"
@@ -70,7 +70,7 @@ const SideBarExhibitor = () => {
                   Reserve Booth
                 </Link>
               </li> */}
-              <li>
+              {/* <li>
                 <Link
                   to="/manage-booth"
                   className="block px-3 py-2 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium"
@@ -80,7 +80,7 @@ const SideBarExhibitor = () => {
               </li>
             </ul>
           )}
-        </div>
+        </div> */}
 
         {/* Communication */}
         {/* <div>

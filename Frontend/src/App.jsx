@@ -9,7 +9,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Attendee/Dashboard';
+import UpcomingExposRegistration from './pages/Attendee/UpcomingExposRegistration';
 import Profile from './pages/profile';
 import ManageExpos from './pages/Admin/Show-events';
 import ManageBooths from './pages/Admin/manage-booth';
@@ -94,12 +95,8 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-           path="/expo/:expoId/register" 
-           element={
-           <ExpoRegistrationForm />
-           } 
-           />
+<Route path="/ExpoRegistrationForm/:expoId" element={<ExpoRegistrationForm />} />
+
 
           <Route
             path="/create"
@@ -156,8 +153,8 @@ function App() {
          <AllExhibitors />
          } 
          />
-       <Route path="/expo/:expoId/register" element={<ExpoRegistrationForm />} />
-
+       {/* <Route path="/expo/:expoId/register" element={<ExpoRegistrationForm />} /> */}
+        <Route path="/UpcomingExposRegistration" element={<UpcomingExposRegistration />} />
 
           <Route
             path="/edit-event/:id"

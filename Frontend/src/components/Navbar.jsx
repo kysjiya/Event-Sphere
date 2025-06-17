@@ -121,11 +121,11 @@ export default function Navbar() {
                       )}
                       {user.role === 'attendee' && (
                         <Link
-                          to="/attendee-profile"
+                          to="/dashboard"
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                           onClick={() => setIsProfileOpen(false)}
                         >
-                          Profile
+                          Dashboard
                         </Link>
                       )}
 

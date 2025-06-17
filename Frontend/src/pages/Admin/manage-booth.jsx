@@ -12,7 +12,7 @@ export default function ManageBooths() {
   useEffect(() => {
     const fetchBooths = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/booths/${expoId}`, {
+        const res = await axios.get(`http://localhost:5000/api/booths/expo/${expoId}`, {
           withCredentials: true,
         });
         setBooths(res.data);

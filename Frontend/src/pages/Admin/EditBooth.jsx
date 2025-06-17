@@ -10,6 +10,7 @@ export default function EditBooth() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const { boothId } = useParams()
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     hall: '',
@@ -22,7 +23,8 @@ export default function EditBooth() {
 useEffect(() => {
   const fetchBooth = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/booth/${boothId}`);
+ await axios.get(`http://localhost:5000/api/booths/booth/${boothId}`);
+
       setFormData({
         hall: res.data.hall,
         row: res.data.row,
@@ -44,7 +46,7 @@ useEffect(() => {
 
     try {
         const { boothId } = useParams();
-        const res = await axios.put(`http://localhost:5000/api/booth/${boothId}`, formData, {
+        const res = await axios.put(`http://localhost:5000/api/booths/booth/${boothId}`, formData, {
         withCredentials: true
       })
 

@@ -9,7 +9,7 @@ const ExpoRegistrationForm = () => {
   const navigate = useNavigate();
 
   const [expoTitle, setExpoTitle] = useState("");
-  const [booths, setBooths] = useState([]);
+  const [booths, setAvailableBooths] = useState([]);
   const [formData, setFormData] = useState({
     boothId: "",
     companyName: "",
@@ -38,17 +38,19 @@ const ExpoRegistrationForm = () => {
   };
 
   const fetchAvailableBooths = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/api/booths/${expoId}`, { withCredentials: true });
-      const availableBooths = res.data.filter(
-        (booth) => booth.status === "available"
-      );
-      setBooths(availableBooths);
-    } catch (err) {
-      console.error("Error fetching booths", err);
-      toast.error("Failed to load booths.");
-    }
-  };
+  try {
+    const response = await axios.get(`http://localhost:5000/api/booths/expo/${expoId}`, {
+      withCredentials: true,
+    });
+
+    const booths = response.data; // ✅ correct variable name
+    const available = booths.filter((booth) => booth.status !== 'reserved');
+    setAvailableBooths(available);
+  } catch (err) {
+    console.error("Error fetching booths", err);
+  }
+};
+
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));

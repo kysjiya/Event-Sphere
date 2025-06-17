@@ -29,7 +29,7 @@ export default function UpcomingExpos() {
   const navigate = useNavigate();
 
 const handleRegister = (expoId) => {
-  navigate(`/expo/${expoId}/register`);
+navigate(`/ExpoRegistrationForm/${expoId}`);
 };
 
 // console.log("Expo ID from URL:", expoId);

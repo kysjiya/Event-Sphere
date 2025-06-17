@@ -4,7 +4,6 @@ import {
   getBooths,
   reserveOrUpdateBooth,
   cancelReservation,
-  getBoothsByExpoId,
   getBoothById,
   updateBoothById
 } from '../controllers/boothController.mjs';
@@ -12,23 +11,22 @@ import { protect } from '../middlewares/authMiddleware.mjs';
 
 const router = express.Router();
 
-// Create booths for an expo (Admin/Organizer only)
+// Create booths for an expo
 router.post('/:expoId', protect, createBooths);
 
-// Public: Get all booths for an expo
-router.get('/:expoId', getBooths);
+// Get all booths for a specific expo
+router.get('/expo/:expoId', protect, getBooths); // 👈 Changed to /expo/:expoId
 
-// Exhibitor: Reserve or update their booth
+// Get single booth by booth ID
+router.get('/booth/:boothId', getBoothById);
+
+// Exhibitor actions
 router.put('/reserve/:boothId', protect, reserveOrUpdateBooth);
-
-// Exhibitor: Cancel reservation
 router.delete('/cancel/:boothId', protect, cancelReservation);
 
-// Optional: Get booths by expoId (if used elsewhere)
-router.get('/by-expo/:expoId', getBoothsByExpoId);
-
-router.get('/booth/:boothId', getBoothById);
+// Admin: update booth by ID
 router.put('/:boothId', updateBoothById);
 
-router.get("/:expoId", getBoothsByExpoId); 
+// Remove this conflicting route:
+
 export default router;

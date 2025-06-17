@@ -14,17 +14,25 @@ export const getAttendeeProfile = async (req, res) => {
 };
 
 export const registerForExpo = async (req, res) => {
-    try {
-        const attendee = await Attendee.findById(req.params.id);
-        if (!attendee.registeredExpos.includes(req.body.expoId)) {
-            attendee.registeredExpos.push(req.body.expoId);
-            await attendee.save();
-        }
-        res.status(200).json(attendee);
-    } catch (err) {
-        res.status(500).json({ msg: 'Expo registration failed', error: err.message });
+  try {
+    console.log("Attendee ID:", req.params.id);
+    console.log("Expo ID:", req.body.expoId);
+
+    const attendee = await Attendee.findById(req.params.id);
+    if (!attendee) return res.status(404).json({ msg: 'Attendee not found' });
+
+    if (!attendee.registeredExpos.includes(req.body.expoId)) {
+      attendee.registeredExpos.push(req.body.expoId);
+      await attendee.save();
     }
+
+    res.status(200).json(attendee);
+  } catch (err) {
+    console.error("Registration Error:", err);
+    res.status(500).json({ msg: 'Expo registration failed', error: err.message });
+  }
 };
+
 
 export const registerForSession = async (req, res) => {
     try {
